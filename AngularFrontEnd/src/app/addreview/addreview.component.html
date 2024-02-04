@@ -1,0 +1,95 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<a class="navbar-brand">WelcomeUser:-{{review.userName}}</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+		aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" routerLink="/dashboard">DashBoard</a>
+			</li>
+		</ul>
+		<ul class="navbar-nav">
+			<!-- <a class="nav-link" routerLink="/productList/{{id}}">back</a> -->
+			<a class="nav-link" style="cursor:pointer" (click)="logOutLogin()">Logout</a>
+		</ul>
+	</div>
+</nav>
+<div class="container">
+	<div class="row">
+
+		<div class="col-md-12 wow animated fadeInLeft" data-wow-delay=".2s">
+			<h1 class="section-title dark">Add yours Reviews here</h1>
+		</div>
+	</div>
+	<div class="row">
+
+		<div class="col-md-6 mt-3 contact-widget-section2 wow animated fadeInLeft"
+			style="font-family:Georgia, 'Times New Roman', Times, serif; font-size: larger" data-wow-delay=".2s">
+			<div class="find-widget">Product Name: {{ product.productName }}</div>
+			<div class="find-widget">Brand: {{ product.brand }}</div>
+			<div class="find-widget">code: {{ product.productCode }}</div>
+
+		</div>
+		<!-- contact form -->
+		<div class="col-md-6 wow animated fadeInRight" data-wow-delay=".2s">
+			<form #simpleForm="ngForm" (ngSubmit)="simpleForm.form.valid && getFormData()" class="shake" role="form"
+				method="post" id="contactForm" name="contact-form" data-toggle="validator">
+				<!-- heading -->
+				<div class="form-group label-floating mb-4">
+					<label for="heading" class="control-label" style="color: black;font-size: large;">Heading</label>
+					<input class="form-control" rows="3" id="heading" required [(ngModel)]="review.heading"
+						name="heading" #heading="ngModel" pattern="^[A-Za-z 0-9]{5,70}$" style="color: black;" />
+					<span class="text-danger" *ngIf="simpleForm.submitted && heading.errors?.required">**Required
+						field!**</span>
+					<span class="text-danger" *ngIf="simpleForm.submitted && heading.errors?.pattern">**Enter valid
+						heading between 5 and 70**</span>
+					<div class="help-block with-errors"></div>
+				</div>
+
+
+				<!-- Subject -->
+				{{error}}
+				<div class="form-group label-floating pt-4">
+					<label class="control-label larger dark" style="color: black;font-size:larger;">Rating</label>
+					<div class="row">
+						<div class="col-sm-12">
+							<ul class="list-inline rating-list" *ngFor="let star of stars"
+								style="display: inline-block;color: black;">
+								<li (click)="countStar(star)" [ngClass]="{ selected: star <= selectedValue }">
+									<i class="fa fa-star"></i>
+								</li>
+							</ul>
+							<input type="hidden" [value]="selectedValue" ngModel name="rating">
+						</div>
+					</div>
+
+				</div>
+
+				<!-- Message -->
+				<div class="form-group label-floating mb-4">
+					<label for="message" class="control-label" style="color: black;font-size:x-large;">Review</label>
+					<textarea class="form-control" rows="3" id="message" [(ngModel)]="review.review" name="review"
+						required #reviews="ngModel" pattern="^[A-Za-z .!&$%^*($#@!{}()\/,.,>0-9]{20,400}$"
+						data-error="Write your message"></textarea>
+					<span class="text-danger" *ngIf="simpleForm.submitted && reviews.errors?.required">**Required
+						field!**</span>
+					<span class="text-danger" *ngIf="simpleForm.submitted && reviews.errors?.pattern">**Enter valid
+						Review between 20 and 400**</span>
+					<div class="help-block with-errors"></div>
+				</div>
+
+
+				<!-- Form Submit -->
+				<div class="form-submit mt-2">
+					<button class="btn btn-primary" type="submit" id="form-submit">
+						<i class="material-icons mdi mdi-message-outline"></i> Add Review
+					</button>
+					<div id="msgSubmit" class="h3 text-center hidden"></div>
+					<div class="clearfix"></div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
